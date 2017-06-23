@@ -32,6 +32,9 @@ sudo: false
 cache:
     directories:
         - "~/.platformio"
+env:
+    - PLATFORMIO_CI_SRC=test/test_Custodes.cpp
+    - PLATFORMIO_CI_SRC=main.ino
 
 install:
     - pip install -U platformio
