@@ -2,7 +2,7 @@
 .piolibdeps
 .clang_complete
 .gcc-flags.json
-**/lib/CaptureSerial_processing/application.windows32/
-**/lib/CaptureSerial_processing/application.windows64/
+**/lib/CaptureSerial_processing/CaptureSerial/application.windows32/
+**/lib/CaptureSerial_processing/CaptureSerial/application.windows64/
 *.log
 *.bkp

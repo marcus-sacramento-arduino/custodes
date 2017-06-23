@@ -1,0 +1,30 @@
+{
+  "name": "Custodes",
+  "keywords": "infrared, ir, remote, rtc, ic2, ldr",
+  "description": "Projeto para Vigília de Casa Vazia",
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/marcus-sacramento-arduino/custodes.git"
+  },
+  "authors":
+  {
+    "name": "Marcus Sacramento",
+    "url": "https://github.com/marcus-sacramento-arduino"
+  },
+  "dependencies":[
+    {
+      "name": "Wire",
+      "frameworks": "arduino"
+    },
+    {
+      "name": "DS1307",
+      "frameworks": "arduino"
+    }
+  ],
+  "version": "1.0.0",
+  "downloadUrl": "https://github.com/marcus-sacramento-arduino/custodes/archive/v1.0.0.tar.gz",
+  "include": "Custodes-1.0.0",
+  "frameworks": "arduino",
+  "platforms": "atmelavr"
+}

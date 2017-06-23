@@ -1,13 +1,15 @@
+
 //Programa: Programa de Vigia para casa
 //Descrição: Simula presença através do acionamento de lampadas e aparelhos de TV
 //Autor: Marcus Sacramento
+
+#ifndef UNIT_TEST  // IMPORTANT LINE!
 
 #include <Wire.h>
 #include <DS1307.h>
 #include "Arduino.h"
 #include "Custodes.h"
 
-#ifndef UNIT_TEST  // IMPORTANT LINE!
 int delayTime = 30000;
 int minLight = 50;
 //Variáveis de tempo para o RTC IC2
@@ -19,9 +21,11 @@ int LDRpin = 0;
 float lightValue = 0;
 int chanel1 = 7;
 int chanel2 = 8;
+bool sala = false;
+bool garagem = false;
+
 
 Custodes custodes;
-
 void setup()
 {
   Serial.begin(9600);
@@ -38,7 +42,22 @@ void setup()
   digitalWrite(chanel2, LOW);
 }
 
-void logDateTime(float lightValue){
+void loop()
+{
+  //get time from RTC
+  rtc.get(&sec, &min, &hour, &day, &month, &year);
+  lightValue = LDRRead(LDRpin);
+  sala = custodes.salaCheck(lightValue, hour, min, minLight);
+  garagem = custodes.garagemCheck(lightValue, hour, min, minLight);
+  logDateTime(lightValue, year, month, day, hour, sec, sala, garagem);
+  lampControl(sala, garagem, chanel1, chanel2);
+
+
+  delay(delayTime);
+}
+
+
+void logDateTime(float lightValue, int year, int month, int day, int hour, int sec, bool sala, bool garagem){
   Serial.print("\n");
   Serial.print(year, DEC);
   Serial.print("-");
@@ -54,9 +73,9 @@ void logDateTime(float lightValue){
   Serial.print(",");
   Serial.print(lightValue);
   Serial.print(",");
-  Serial.print(custodes.sala);
+  Serial.print(sala);
   Serial.print(",");
-  Serial.print(custodes.garagem);
+  Serial.print(garagem);
   Serial.print(",");
 }
 
@@ -80,20 +99,4 @@ void lampControl(bool sala, bool garagem,int chanel1, int chanel2){
     digitalWrite(chanel2, LOW);
   }
 }
-
-void loop()
-{
-  //get time from RTC
-  rtc.get(&sec, &min, &hour, &day, &month, &year);
-  lightValue = LDRRead(LDRpin);
-  custodes.salaCheck(lightValue, hour, min, minLight);
-  custodes.garagemCheck(lightValue, hour, min, minLight);
-
-  logDateTime(lightValue);
-  lampControl(custodes.sala, custodes.garagem, chanel1, chanel2);
-  custodes.offControl(hour);
-
-  delay(delayTime);
-}
-
-#endif    // IMPORTANT LINE!
+#endif    // IMPORTANT LINE
