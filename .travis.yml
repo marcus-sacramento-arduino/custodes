@@ -41,7 +41,7 @@ install:
     - platformio lib -g install 99 145
 
 script:
-    - platformio run
+    - platformio test
 
 
 #
